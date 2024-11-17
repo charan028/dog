@@ -127,6 +127,45 @@ if st.session_state.get("connected"):
             st.write("Data with Predictions:")
             st.dataframe(processed_data)
 
+            # spike_data = processed_data[processed_data['Predictions'] == 1]
+            timeArray = []
+            start_time = None
+            start_index = None
+
+            for index, row in processed_data.iterrows():
+                if row['Predictions'] == 1:
+                    if start_time is None:
+                        # Start a new range
+                        start_time = row['Time']
+                        start_index = index
+                else:
+                    if start_time is not None:
+                        # End the current range
+                        end_time = processed_data.loc[index - 1, 'Time']
+                        end_index = index - 1
+                        timeArray.append([[start_time, end_time], [start_index, end_index]])
+                        start_time = None
+                        start_index = None
+
+            # Handle the case where the last row is part of a range
+            if start_time is not None:
+                end_time = processed_data.iloc[-1]['Time']
+                end_index = processed_data.index[-1]
+                timeArray.append([[start_time, end_time], [start_index, end_index]])
+
+            # Join into a coherent string
+            result_strings = []
+            for time_range, index_range in timeArray:
+                if time_range[0] == time_range[1]:  # Single time
+                    result_strings.append(f"At {time_range[0]} (Index {index_range[0]})")
+                else:  # Time range
+                    result_strings.append(
+                        f"From {time_range[0]} to {time_range[1]} (Indices {index_range[0]}-{index_range[1]})"
+                    )
+
+            final_string = " || ".join(result_strings)
+
+            st.write(f"Hydrate Events @: {final_string}")
             # Save processed data
             processed_file_path = os.path.join(UPLOAD_FOLDER, "processed_data.csv")
             processed_data.to_csv(processed_file_path, index=False)
