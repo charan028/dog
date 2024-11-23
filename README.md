@@ -1,73 +1,82 @@
-# Hydrate Event Prediction with LSTM
+# Hydrate Event Predictor 🚀
 
-This project predicts hydrate events in gas pipelines based on sensor data using a machine learning pipeline, primarily utilizing an LSTM (Long Short-Term Memory) architecture. The dataset contains time-series data, including parameters such as volume deviation, valve efficiency, and hydrate predictions.
-
----
-
-## Table of Contents
-
-- [Introduction](#introduction)
-- [Dataset Description](#dataset-description)
-- [Approach](#approach)
-- [Model Architecture](#model-architecture)
-- [Results and Validation](#results-and-validation)
-- [Installation and Setup](#installation-and-setup)
-- [Usage](#usage)
-- [Future Enhancements](#future-enhancements)
-- [Acknowledgments](#acknowledgments)
+Hydrate Event Predictor is a machine learning-powered tool designed to detect and predict hydrate events in gas pipelines. This solution helps pipeline operators identify potential hydrate formations early, minimizing inefficiencies, delays, and costly shutdowns.
 
 ---
 
-## Introduction
+## 💡 Problem Statement
 
-Hydrate events in gas pipelines can lead to disruptions and inefficiencies in operations. This project uses machine learning, specifically an LSTM model, to predict these events based on sensor readings. The model provides both numerical predictions and graphical visualization of hydrate events.
+Hydrate formations in gas pipelines can lead to severe operational challenges, including:
+- Increased downtime and maintenance costs
+- Risk of equipment damage
+- Inefficient gas flow operations
 
----
-
-## Dataset Description
-
-The dataset consists of time-series data collected from gas pipeline sensors. Key features include:
-
-- **Time**: Timestamp of the observation.
-- **Inj Gas Meter Volume Instantaneous**: Measured gas volume.
-- **Inj Gas Meter Volume Setpoint**: Target gas volume.
-- **Inj Gas Valve Percent Open**: Percentage of valve openness.
-- **Volume Deviation**: Difference between measured and target gas volumes.
-- **Valve Efficiency**: Efficiency of the valve based on the measured flow rate.
-- **Hydrate_Flag / Hydrate_Predicted**: Indicator for hydrate events (binary: 0 or 1).
+Pipeline operators need an intelligent solution to predict and act on hydrate formation events using sensor data.
 
 ---
 
-## Approach
+## 🤖 Solution Overview
 
-1. **Data Preprocessing**:
-   - Cleaned missing values with interpolation and forward/backward filling.
-   - Computed derived features like `Volume Deviation` and `Valve Efficiency`.
-   - Balanced the dataset to handle class imbalance.
-
-2. **Model Training**:
-   - Used an LSTM model for temporal dependency analysis.
-   - Computed class weights to handle imbalance during training.
-   - Split the data into training and testing sets, stratified by the hydrate events.
-
-3. **Validation**:
-   - Evaluated model performance using metrics such as accuracy, precision, recall, F1-score, and confusion matrix.
-   - Visualized hydrate events with time-series plots.
-
-4. **Dummy Data Generation**:
-   - Created dummy datasets to simulate hydrate events for testing and validation.
+Hydrate Event Predictor leverages **time-series data** from gas pipeline sensors to detect hydrate formation patterns. The key features include:
+- Analysis of critical metrics like `Volume Deviation` and `Valve Efficiency`
+- Predictions powered by **LSTM Neural Networks**
+- Visualization of hydrate events in real-time for quick decision-making
 
 ---
 
-## Model Architecture
+## 🛠️ Technologies Used
 
-The LSTM model consists of:
-- **Input Layer**: Processes time-series data (e.g., `Volume Deviation`, `Valve Efficiency`).
-- **Hidden Layers**:
-  - Multiple LSTM layers with ReLU activation for learning temporal dependencies.
-  - Dropout layers for regularization.
-- **Output Layer**: A dense layer with sigmoid activation for binary classification.
+- **LSTM Neural Networks**: For processing and analyzing time-series data.
+- **FastAPI**: For building a seamless backend API to serve predictions.
+- **Pandas, NumPy, and Matplotlib**: For data preprocessing, analysis, and visualization.
+- **MongoDB**: To store and manage pipeline sensor data.
+- **Python**: Core programming language for development.
 
-Example architecture:
+---
+
+## ⚙️ Features
+
+1. **Hydrate Event Detection**  
+   - Identifies patterns signaling hydrate formations.  
+
+2. **Real-Time Visualization**  
+   - Interactive plots to monitor `Volume Deviation`, `Valve Efficiency`, and other critical metrics.  
+
+3. **Imbalanced Data Handling**  
+   - Tackles the challenge of predicting rare hydrate events using class balancing techniques.  
+
+4. **Adaptable Framework**  
+   - Works with both real-world and dummy datasets.  
+
+---
+
+## 🧪 Dataset
+
+The dataset includes time-series data from gas pipeline sensors with features like:
+- `Inj Gas Meter Volume Instantaneous`
+- `Inj Gas Meter Volume Setpoint`
+- `Inj Gas Valve Percent Open`
+- `Volume Deviation`
+- `Valve Efficiency`
+
+Example:
 ```plaintext
-LSTM(128) → Dropout(0.2) → LSTM(64) → Dropout(0.2) → Dense(1, activation='sigmoid')
+Time                  | Inj Gas Meter Volume Instantaneous | Inj Gas Meter Volume Setpoint | Inj Gas Valve Percent Open | Volume Deviation | Valve Efficiency
+2024-11-01 00:00:00  | 120.5                              | 130.0                         | 75.0                      | -9.5             | 1.6
+2024-11-01 00:05:00  | 121.0                              | 130.0                         | 74.0                      | -9.0             | 1.64
+```
+
+## Installation
+```
+git clone https://github.com/your-username/hydrate-event-predictor.git
+cd hydrate-event-predictor
+```
+## Install Dependencies
+
+```
+pip install -r requirements.txt
+```
+## Run the Application
+```
+streamlit run app1.py
+```
